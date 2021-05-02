@@ -1,3 +1,3 @@
 git add .
-git commit -m "동적SQL을 이용한 검색"
+git commit -m "mybatis 적용"
 git push origin master

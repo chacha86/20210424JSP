@@ -2,7 +2,6 @@ package com.sbs.example;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,15 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/TestServlet")
 public class TestServlet extends HttpServlet {
-
+	private ArticleDao dao;
+	
+	public TestServlet() throws IOException {		
+		 dao = new ArticleDao();
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8");
-		
-		//dao 에서 게시물리스트를 가져온다. 
-		
-		System.out.println("servlet 실행");
 		
 		String action = request.getParameter("action");
 		
@@ -45,13 +45,7 @@ public class TestServlet extends HttpServlet {
 			
 		} else if(action.equals("default") || action.equals("list")) {
 			
-			ArrayList<Article> articles = new ArrayList<>();
-			Article a1 = new Article("제목1", "내용1");
-			Article a2 = new Article("제목2", "내용2");
-			Article a3 = new Article("제목3", "내용3");
-			articles.add(a1);
-			articles.add(a2);
-			articles.add(a3);
+			ArrayList<Article> articles = dao.getArticles();
 			
 			request.setAttribute("articles", articles);
 
