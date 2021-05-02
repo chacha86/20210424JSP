@@ -28,4 +28,17 @@ public class ArticleDao {
 		
 		return articles;
 	}
+	
+	public void insertArticle(Article article) {
+		SqlSession session = sqlSessionFactory.openSession();
+		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
+		mapper.insertArticle(article);
+		session.commit();
+	}
+
+	public Article getArticleById(int id) {
+		SqlSession session = sqlSessionFactory.openSession();
+		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
+		return mapper.getArticleById(id);
+	}
 }

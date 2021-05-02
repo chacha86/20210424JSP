@@ -36,20 +36,30 @@ public class TestServlet extends HttpServlet {
 		} else if(action.equals("doAdd")) {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
-			System.out.println(title);
-			System.out.println(body);
-			System.out.println("데이터를 저장합니다.");
+			
+			Article article = new Article();
+			article.setTitle(title);
+			article.setBody(body);
+			
+			dao.insertArticle(article);
 			
 			// 재요청 -> redirect
 			response.sendRedirect("TestServlet?action=list");
 			
-		} else if(action.equals("default") || action.equals("list")) {
+		} else if(action.equals("detailForm") ) {
+			
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			Article article = dao.getArticleById(id);
+			request.setAttribute("article", article);
+			forward(request, response, "detail");
+		}
+		else if(action.equals("default") || action.equals("list")) {
 			
 			ArrayList<Article> articles = dao.getArticles();
-			
 			request.setAttribute("articles", articles);
-
 			forward(request, response, "list");
+			
 		}
 	}
 	

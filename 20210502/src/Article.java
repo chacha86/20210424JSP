@@ -1,16 +1,20 @@
 package com.sbs.example;
 
 public class Article {
+	private int id;
 	private String title;
 	private String body;
 	private int boardId;
 	private int memberId;
 	private String writer; 
 	private String passwd;
+	private String regDate;
 	private int hit;
 	
-	public Article(String title, String body, int boardId, int memberId, String writer, String passwd, int hit) {
+	public Article(int id, String title, String body, int boardId, int memberId, String writer, String passwd, String regDate, int hit) {
 		super();
+		this.regDate = regDate;
+		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.boardId = boardId;
@@ -22,6 +26,22 @@ public class Article {
 	
 	public Article() {}
 	
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}

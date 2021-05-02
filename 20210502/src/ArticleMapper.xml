@@ -7,6 +7,22 @@
     select * 
     from article
   </select>
-
   
+  <select id="getArticleById" parameterType="int" resultType="com.sbs.example.Article">
+    select * 
+    from article
+    where id = #{id}
+  </select>
+  
+  <insert id="insertArticle" parameterType="com.sbs.example.Article">
+  	INSERT INTO article 
+  	SET title = #{title},
+  	body = #{body},
+  	boardId = 1,
+  	memberId = 1,
+  	writer = '',
+  	passwd = '',
+  	hit = 0,
+  	regDate = now()  	 
+  </insert>
 </mapper>
