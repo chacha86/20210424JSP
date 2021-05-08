@@ -19,47 +19,61 @@
 	width: 400px;
 }
 
+.contents {
+	margin: 0 auto;
+	width: 900px;
+}
+
+.list {
+	text-align:center;
+}
+
+.footer {
+	text-align:center;
+}
 </style>
 </head>
 <body>
-
-<h1>게시물 목록</h1>
-<div class="col">
-	번호
-</div>
-<div class="col title">
-	제목
-</div>
-<div class="col">
-	작성자
-</div>
-<div class="col">
-	작성일
-</div>
-<div class="col">
-	조회수
-</div>
-<hr>
-<c:forEach items="${articles}" var="article" >
-	<div>
+<div class="contents">
+	<div class="list">
+		<h1>게시물 목록</h1>
 		<div class="col">
-			${article.id}
+			번호
 		</div>
 		<div class="col title">
-			<a href="TestServlet?action=detailForm&id=${article.id}">${article.title}</a>
+			제목
 		</div>
 		<div class="col">
-			${article.memberId}
+			작성자
 		</div>
 		<div class="col">
-			${article.regDate}
+			작성일
 		</div>
 		<div class="col">
-			${article.hit}
+			조회수
 		</div>
+		<hr>
+		<c:forEach items="${articles}" var="article" >
+			<div>
+				<div class="col">
+					${article.id}
+				</div>
+				<div class="col title">
+					<a href="TestServlet?action=detailForm&id=${article.id}">${article.title}</a>
+				</div>
+				<div class="col">
+					${article.memberId}
+				</div>
+				<div class="col">
+					${article.regDate}
+				</div>
+				<div class="col">
+					${article.hit}
+				</div>
+			</div>
+			<hr>
+		</c:forEach>
 	</div>
-	<hr>
-</c:forEach>
-<a href="TestServlet?action=addForm">글쓰기</a>
-</body>
+	<a href="TestServlet?action=addForm">글쓰기</a>
+</div>
 </html>
