@@ -1,3 +1,3 @@
 git add .
-git commit -m "게시물 등록 및 목록, 상세보기"
+git commit -m "로그인 기능 구현 및 조각 파일 적용"
 git push origin master
