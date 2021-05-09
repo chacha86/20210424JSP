@@ -6,7 +6,7 @@
 .contents {
 	margin: 0 auto;
 	width: 900px;
-	height: 600px;
+	height: 700px;
 }
 
 .footer {

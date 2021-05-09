@@ -55,4 +55,10 @@ public class ArticleDao {
 		mapper.updateArticle(article);
 		session.commit();	
 	}
+	
+	public ArrayList<Reply> getRepliesByArticleId(int articleId) {
+		SqlSession session = sqlSessionFactory.openSession();
+		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
+		return mapper.getRepliesByArticleId(articleId);
+	}
 }

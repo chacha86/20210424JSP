@@ -9,4 +9,5 @@ public interface ArticleMapper {
 	public Article getArticleById(int id);
 	public void deleteArticleById(int id);
 	public void updateArticle(Article article);
+	public ArrayList<Reply> getRepliesByArticleId(int articleId);
 }

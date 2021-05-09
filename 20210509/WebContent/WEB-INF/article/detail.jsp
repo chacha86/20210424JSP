@@ -24,6 +24,21 @@
 		</form>
 		 -->
 		<a href="TestServlet?action=doDelete&id=${ article.id }">삭제</a>
+		<hr>
+		<div>
+			<c:forEach var="reply" items="${ replies }">
+				<div>
+					<span>내용</span>
+					<span>${reply.body}</span>
+				</div>
+				<hr>
+			</c:forEach>
+		</div>
+		<form>
+			<input type="text" name="rbody" />
+			<input type="submit" value="등록" />
+		</form>
+		
 	</div>
 <%@ include file="../particle/foot.jspf" %>
 </body>

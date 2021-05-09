@@ -37,5 +37,11 @@
   	body = #{body}
   	WHERE id = #{id}
   </update>
+  
+  <select id="getRepliesByArticleId" parameterType="int" resultType="com.sbs.example.article.Reply">
+  	SELECT * 
+	FROM articleReply 
+	WHERE articleId = #{articleId};
+  </select>
 
 </mapper>

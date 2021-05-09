@@ -1,3 +1,3 @@
 git add .
-git commit -m "로그인 기능 구현 및 조각 파일 적용"
+git commit -m "로그인, 조각파일, 댓글"
 git push origin master

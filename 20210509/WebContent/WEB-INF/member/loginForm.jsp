@@ -8,18 +8,20 @@
 </head>
 <body>
 <%@ include file="../particle/head.jspf" %>
-<h1>로그인</h1>
-<div>
-	<form action="TestServlet">
-		<div>
-			<input type="text" name="loginId" placeholder="아이디"/>
-		</div>
-		<div>
-			<input type="password" name="loginPw" placeholder="비밀번호"/>
-		</div>
-		<input type="hidden" name="action" value="doLogin">
-		<input type="submit" value="로그인">
-	</form>
+<div class="center">
+	<h1>로그인</h1>
+	<div>
+		<form action="TestServlet">
+			<div>
+				<input type="text" name="loginId" placeholder="아이디"/>
+			</div>
+			<div>
+				<input type="password" name="loginPw" placeholder="비밀번호"/>
+			</div>
+			<input type="hidden" name="action" value="doLogin">
+			<input type="submit" value="로그인">
+		</form>
+	</div>
 </div>
 <%@ include file="../particle/foot.jspf" %>
 </body>

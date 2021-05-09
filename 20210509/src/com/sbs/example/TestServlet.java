@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sbs.example.article.Article;
 import com.sbs.example.article.ArticleDao;
+import com.sbs.example.article.Reply;
 import com.sbs.example.member.Member;
 import com.sbs.example.member.MemberDao;
 
@@ -58,9 +59,12 @@ public class TestServlet extends HttpServlet {
 		} else if(action.equals("detailForm") ) {
 			
 			int id = Integer.parseInt(request.getParameter("id"));
-			
 			Article article = dao.getArticleById(id);
+			ArrayList<Reply> replies = dao.getRepliesByArticleId(id);
+			
 			request.setAttribute("article", article);
+			request.setAttribute("replies", replies);
+			
 			forward(request, response, "article/detail");
 		}
 		else if(action.equals("default") || action.equals("list")) {
