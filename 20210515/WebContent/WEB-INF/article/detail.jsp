@@ -15,7 +15,7 @@
 		<div>
 			내용 : ${article.body}
 		</div>
-		<a href="TestServlet?action=showUpdateForm&id=${article.id}">수정</a>
+		<a href="/article/showUpdateForm.do?id=${article.id}">수정</a>
 		<!-- 
 		<form action="TestServlet" method="POST">
 			<input type="hidden" name="title" value="${article.title}" />
@@ -23,7 +23,7 @@
 			<input type="submit" value="수정" />
 		</form>
 		 -->
-		<a href="TestServlet?action=doDelete&id=${ article.id }">삭제</a>
+		<a href="/article/delete.do?id=${ article.id }">삭제</a>
 		<hr>
 		<div>
 			<c:forEach var="reply" items="${ replies }">
@@ -34,11 +34,6 @@
 				<hr>
 			</c:forEach>
 		</div>
-		<form>
-			<input type="text" name="rbody" />
-			<input type="submit" value="등록" />
-		</form>
-		
 	</div>
 <%@ include file="../particle/foot.jspf" %>
 </body>

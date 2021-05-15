@@ -1,34 +1,20 @@
 package com.sbs.example;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.sbs.example.article.Article;
 import com.sbs.example.article.ArticleController;
-import com.sbs.example.article.ArticleDao;
-import com.sbs.example.article.Reply;
-import com.sbs.example.member.Member;
 import com.sbs.example.member.MemberController;
-import com.sbs.example.member.MemberDao;
 
 @WebServlet("*.do")
 public class TestServlet extends HttpServlet {
-	private ArticleDao dao;
 	private Controller cont;
-	
-	
-	public TestServlet() throws IOException {		
-		 dao = new ArticleDao();
-	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 공통처리
@@ -57,22 +43,12 @@ public class TestServlet extends HttpServlet {
 		
 		request.setAttribute("action", action);
 		
-		System.out.println("1 : " + action);
-		
-		cont.doService(request, response);
-
-		
+		cont.doService(request, response);	
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
-	}
-	
-	private void forward(HttpServletRequest request, HttpServletResponse response, String fname) throws ServletException, IOException {
-		String path = "/WEB-INF/" + fname + ".jsp";
-		RequestDispatcher rd =  request.getRequestDispatcher(path);
-		rd.forward(request, response);
 	}
 }
 

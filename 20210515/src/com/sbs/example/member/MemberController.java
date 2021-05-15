@@ -26,33 +26,44 @@ public class MemberController extends Controller {
 
 		if (action.equals("showLoginForm.do")) {
 			forward(request, response, "member/loginForm");
-		} else if (action.equals("doLogin")) {
-			String loginId = request.getParameter("loginId");
-			String loginPw = request.getParameter("loginPw");
+			
+		} else if (action.equals("login.do")) {
+			login(request, response);
+			
+		} else if (action.equals("logout.do")) {
+			logout(request, response);
+		}
+	}
 
-			Member member = new Member();
-			member.setLoginId(loginId);
-			member.setLoginPw(loginPw);
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		HttpSession session = request.getSession();
+		session.invalidate();
 
-			Member loginedMember = mdao.getMemberByLoginIdAndLoginPw(member);
+		response.sendRedirect("/article/list.do");
+	}
 
-			System.out.println(loginedMember);
+	private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
 
-			if (loginedMember == null) {
-				// 에러페이지
-				forward(request, response, "error/loginFailed");
+		Member member = new Member();
+		member.setLoginId(loginId);
+		member.setLoginPw(loginPw);
 
-			} else {
-				HttpSession session = request.getSession();
-				session.setAttribute("loginedMember", loginedMember);
-				// request.setAttribute("loginedMember", loginedMember);
-				response.sendRedirect("TestServlet?action=list");
-			}
-		} else if (action.equals("doLogout")) {
+		Member loginedMember = mdao.getMemberByLoginIdAndLoginPw(member);
+
+		System.out.println(loginedMember);
+
+		if (loginedMember == null) {
+			// 에러페이지
+			forward(request, response, "error/loginFailed");
+
+		} else {
 			HttpSession session = request.getSession();
-			session.invalidate();
-
-			response.sendRedirect("TestServlet?action=list");
+			session.setAttribute("loginedMember", loginedMember);
+			// request.setAttribute("loginedMember", loginedMember);
+			response.sendRedirect("/article/list.do");
 		}
 	}	
 }

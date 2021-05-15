@@ -8,7 +8,7 @@
 </head>
 <body>
 로그인 실패!!
-<a href="TestServlet?action=showLoginForm">로그인하기</a>
-<a href="TestServlet?action=list">게시물 목록으로 가기</a>
+<a href="/member/showLoginForm.do">로그인하기</a>
+<a href="/article/list.do">게시물 목록으로 가기</a>
 </body>
 </html>

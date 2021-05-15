@@ -19,40 +19,35 @@ public class ArticleController extends Controller {
 	public void doService(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String action = (String) request.getAttribute("action");
-		
+
 		if (action == null) {
 			action = "default";
 		}
 
-		if (action.equals("addForm")) {
-
+		if (action.equals("addForm.do")) {
 			forward(request, response, "article/addForm");
 
-		} else if (action.equals("doAdd")) {
-			doAdd(request, response);
+		} else if (action.equals("add.do")) {
+			add(request, response);
 
-		} else if (action.equals("detailForm")) {
+		} else if (action.equals("detailForm.do")) {
 			detailForm(request, response);
 
 		} else if (action.equals("default") || action.equals("list.do")) {
 			list(request, response);
 
-		} else if (action.equals("doDelete")) {
-			doDelete(request, response);
+		} else if (action.equals("delete.do")) {
+			delete(request, response);
 
-		} else if (action.equals("showUpdateForm")) {
+		} else if (action.equals("showUpdateForm.do")) {
 			showUpdateForm(request, response);
 
-		} else if (action.equals("doUpdate")) {
-			doUpdate(request, response);
+		} else if (action.equals("update.do")) {
+			update(request, response);
 		}
 	}
-	
-	
-	
-	
 
-	private void doUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
@@ -64,7 +59,7 @@ public class ArticleController extends Controller {
 
 		dao.updateArticle(article);
 
-		response.sendRedirect("TestServlet?action=detailForm&id=" + id);
+		response.sendRedirect("/article/detailForm.do?id=" + id);
 
 	}
 
@@ -77,11 +72,11 @@ public class ArticleController extends Controller {
 		forward(request, response, "article/updateForm");
 	}
 
-	private void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		dao.deleteArticleById(id);
 
-		response.sendRedirect("TestServlet?action=list");
+		response.sendRedirect("/article/list.do");
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -104,7 +99,7 @@ public class ArticleController extends Controller {
 
 	}
 
-	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
 
@@ -115,6 +110,6 @@ public class ArticleController extends Controller {
 		dao.insertArticle(article);
 
 		// 재요청 -> redirect
-		response.sendRedirect("TestServlet?action=list");
+		response.sendRedirect("/article/list.do");
 	}
 }

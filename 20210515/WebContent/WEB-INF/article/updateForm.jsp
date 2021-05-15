@@ -9,7 +9,7 @@
 <body>
 <h1>게시물 수정</h1>
 
-<form action="TestServlet" method="POST">
+<form action="/article/update.do" method="POST">
 	<div>
 		<span>제목</span> 
 		<input type="text" name="title" value="${ article.title }"/>
@@ -19,7 +19,6 @@
 		<textarea name="body">${ article.body }</textarea>
 	</div>
 	<input type="submit" value="등록" />
-	<input type="hidden" name="action" value="doUpdate"/>
 	<input type="hidden" name="id" value="${ article.id }"/>
 </form>
 

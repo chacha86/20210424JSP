@@ -17,8 +17,6 @@ public class ArticleDao {
 		String resource = "com/sbs/example/config/mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-		
-		System.out.println(sqlSessionFactory);
 	}
 
 	public ArrayList<Article> getArticles() {

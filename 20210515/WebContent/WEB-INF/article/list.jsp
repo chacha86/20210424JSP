@@ -21,6 +21,8 @@
 
 .list {
 	text-align:center;
+	height: 600px;
+	overflow:hidden;
 }
 
 .footer {
@@ -54,7 +56,7 @@
 					${article.id}
 				</div>
 				<div class="col title">
-					<a href="TestServlet?action=detailForm&id=${article.id}">${article.title}</a>
+					<a href="/article/detailForm.do?id=${article.id}">${article.title}</a>
 				</div>
 				<div class="col">
 					${article.memberId}
@@ -69,6 +71,6 @@
 			<hr>
 		</c:forEach>
 	</div>
-	<a href="TestServlet?action=addForm">글쓰기</a>
+	<a href="/article/addForm.do">글쓰기</a>
 <%@ include file="../particle/foot.jspf" %>
 </html>
