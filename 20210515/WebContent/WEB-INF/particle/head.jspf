@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<style>
+.contents {
+	margin: 0 auto;
+	width: 900px;
+	height: 700px;
+}
+
+.footer {
+	text-align:center;
+}
+
+.center {
+	text-align:center;
+}
+
+</style>
+<div class="contents">
+	<c:choose>
+		<c:when test="${ loginedMember == null }">
+			<a href="/member/showLoginForm.do">로그인</a><br>
+		</c:when>
+		<c:otherwise>
+			<span>${ loginedMember.name }님! 반갑습니다.</span><a href="member?action=doLogout">로그아웃</a>
+		</c:otherwise>
+	</c:choose>
+	
+	
