@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface ArticleMapper {
 
-	public ArrayList<Article> getArticles();
+	public ArrayList<Article> getArticles(Pagination pagination);
 	public void insertArticle(Article article);
 	public Article getArticleById(int id);
 	public void deleteArticleById(int id);

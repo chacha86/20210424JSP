@@ -72,5 +72,17 @@
 		</c:forEach>
 	</div>
 	<a href="/article/addForm.do">글쓰기</a>
+	<div class="center">
+		<c:forEach var="i" begin="1" end="10">
+			<c:choose>
+				<c:when test="${ pagination.currentPageNo == i }">
+					<a href="/article/list.do?currentPageNo=${i}">[${i}] </a>
+				</c:when>
+				<c:otherwise>
+					<a href="/article/list.do?currentPageNo=${i}">${i} </a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</div>
 <%@ include file="../particle/foot.jspf" %>
 </html>

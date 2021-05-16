@@ -19,10 +19,10 @@ public class ArticleDao {
 		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 	}
 
-	public ArrayList<Article> getArticles() {
+	public ArrayList<Article> getArticles(Pagination pagination) {
 		SqlSession session = sqlSessionFactory.openSession();
 		ArticleMapper mapper = session.getMapper(ArticleMapper.class);
-		ArrayList<Article> articles = mapper.getArticles();			
+		ArrayList<Article> articles = mapper.getArticles(pagination);			
 		
 		return articles;
 	}

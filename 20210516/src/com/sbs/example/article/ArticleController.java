@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.sbs.example.Controller;
-import com.sbs.example.member.Member;
 
 public class ArticleController extends Controller {
 	private ArticleDao dao;
@@ -18,49 +16,49 @@ public class ArticleController extends Controller {
 		dao = new ArticleDao();
 	}
 
-	public void doService(HttpServletRequest request, HttpServletResponse response)
+	public String doService(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String action = (String) request.getAttribute("action");
-
+		String view = "";
+		
 		if (action == null) {
 			action = "default";
 		}
 
 		if (action.equals("addForm.do")) {
-			forward(request, response, "article/addForm");
-
+			view = addForm(request, response);
+			
 		} else if (action.equals("add.do")) {
-			add(request, response);
+			view = add(request, response);
 
 		} else if (action.equals("detailForm.do")) {
-			detailForm(request, response);
+			view = detailForm(request, response);
 
 		} else if (action.equals("default") || action.equals("list.do")) {
-			list(request, response);
+			view = list(request, response);
 
 		} else if (action.equals("delete.do")) {
-			delete(request, response);
+			view = delete(request, response);
 
 		} else if (action.equals("showUpdateForm.do")) {
-			showUpdateForm(request, response);
+			view = showUpdateForm(request, response);
 
 		} else if (action.equals("update.do")) {
-			update(request, response);
+			view = update(request, response);
 			
 		} else if(action.equals("addReply.do")) {
-			addReply(request, response);
-			
-		} else if(action.equals("showReplyForm.do")) {
-			showReplyForm(request, response);
-			
-		}
-	}
+			view = addReply(request, response);
 
-	private void showReplyForm(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		} 
 		
+		return view;
 	}
 
-	private void addReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String addForm(HttpServletRequest request, HttpServletResponse response) {
+		return "article/addForm";
+	}
+
+	private String addReply(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
 		String rbody = request.getParameter("rbody");
 		int articleId = Integer.parseInt(request.getParameter("articleId"));
@@ -73,11 +71,11 @@ public class ArticleController extends Controller {
 		
 		dao.insertReply(reply);
 		
-		response.sendRedirect("/article/detailForm.do?id="+articleId);
+		return "r:/article/detailForm.do?id="+articleId;
 		
 	}
 
-	private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String update(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
@@ -89,44 +87,59 @@ public class ArticleController extends Controller {
 
 		dao.updateArticle(article);
 
-		response.sendRedirect("/article/detailForm.do?id=" + id);
+		return "r:/article/detailForm.do?id=" + id;
 
 	}
 
-	private void showUpdateForm(HttpServletRequest request, HttpServletResponse response)
+	private String showUpdateForm(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		Article article = dao.getArticleById(id);
 
 		request.setAttribute("article", article);
-		forward(request, response, "article/updateForm");
+		return "article/updateForm";
 	}
 
-	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		dao.deleteArticleById(id);
 
-		response.sendRedirect("/article/list.do");
+		return "r:/article/list.do";
 	}
 
-	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Article> articles = dao.getArticles();
-		request.setAttribute("articles", articles);
-		forward(request, response, "article/list");
-	}
-
-	private void detailForm(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private String list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(!loginCheck(request)) {
-			request.setAttribute("errorMsg", "로그인이 필요한 기능입니다.");
-			forward(request, response, "error/error");
+		
+		// 현재페이지 1 ->  5 * 0 = 0 
+		// 현재페이지 2 ->  5 * 1 = 5
+		// 현재페이지 3 ->  5 * 2 = 10
+		// 현재페이지 4 ->  5 * 3 = 15
+		// 현재페이지     5 * (현재페이지 - 1)
+		int currentPageNo = 1;
+		if(request.getParameter("currentPageNo") != null) {
+			currentPageNo = Integer.parseInt(request.getParameter("currentPageNo"));			
 		}
 		
-		int id = Integer.parseInt(request.getParameter("id"));
+		int articlesCntPerPage = 5;
+		//int index = articleCntPerPage * (currentPageNo - 1);
 		
+		Pagination pagination = new Pagination();
+		pagination.setCurrentPageNo(currentPageNo);
+		pagination.setArticlesCntPerPage(articlesCntPerPage);
+		pagination.setStartIndex(pagination.getStartIndex());
+		
+		ArrayList<Article> articles = dao.getArticles(pagination);
+		request.setAttribute("articles", articles);
+		request.setAttribute("pagination", pagination);
+		
+		return "article/list";
+	}
 
+	private String detailForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		
+		int id = Integer.parseInt(request.getParameter("id"));
+				
 		Article article = dao.getArticleById(id);
 		ArrayList<Reply> replies = dao.getRepliesByArticleId(id);
 
@@ -137,11 +150,12 @@ public class ArticleController extends Controller {
 		request.setAttribute("rflag", request.getParameter("rflag"));
 		request.setAttribute("rid", request.getParameter("rid"));
 		
-		forward(request, response, "article/detail");
+		return "article/detail";
 
 	}
 
-	private void add(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private String add(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		
 		String title = request.getParameter("title");
 		String body = request.getParameter("body");
 
@@ -152,19 +166,6 @@ public class ArticleController extends Controller {
 		dao.insertArticle(article);
 
 		// 재요청 -> redirect
-		response.sendRedirect("/article/list.do");
-	}
-	
-	private boolean loginCheck(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		
-		Member member = (Member)session.getAttribute("loginedMember");
-		
-		if(member == null) {
-			return false;
-		}
-		
-		return true;
-		
+		return "r:/article/list.do";
 	}
 }
